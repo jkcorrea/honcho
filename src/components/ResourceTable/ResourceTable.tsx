@@ -29,7 +29,7 @@ const ResourceTable = ({ data, columns }: ResourceTableProps) => {
               <th
                 key={header.id}
                 colSpan={header.colSpan}
-                className={clsx('align-top sticky top-0', getClassNameForCell(header.column, true))}
+                className={clsx('align-top sticky rounded-none top-0', getClassNameForCell(header.column, true))}
               >
                 {!header.isPlaceholder && flexRender(header.column.columnDef.header, header.getContext())}
               </th>

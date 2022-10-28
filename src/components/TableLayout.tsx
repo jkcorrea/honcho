@@ -8,9 +8,9 @@ import { models } from '@honcho/generated'
 
 import { TablePageQuerySchema } from '~/utils/helpers'
 
-export type AppLayoutProps = { children: ReactNode }
+export type TableLayoutProps = { children: ReactNode }
 
-export const AppLayout = ({ children }: AppLayoutProps) => {
+export const TableLayout = ({ children }: TableLayoutProps) => {
   const router = useRouter()
   const pageQuery = TablePageQuerySchema.safeParse(router.query)
   const model = pageQuery.success ? pageQuery.data.model : null
@@ -19,8 +19,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     <div className="drawer drawer-mobile">
       <input id="nav-drawer" type="checkbox" className="drawer-toggle" />
 
+      {/* Drawer Content */}
       <div className="drawer-content">{children}</div>
 
+      {/* Sidebar */}
       <nav className="drawer-side relative border-r border-gray-300">
         <label htmlFor="nav-drawer" className="drawer-overlay"></label>
         <div className="bg-base-100 text-base-content w-80">

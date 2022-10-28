@@ -105,6 +105,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/react@npm:^2.0.12":
+  version: 2.0.12
+  resolution: "@heroicons/react@npm:2.0.12"
+  peerDependencies:
+    react: ">= 16"
+  checksum: d8e52410890db3337c3c82dcc223eeb3d88badcf96438e38fd9f4cc7aaafa41eb3653dcea6d9f1a8cac55e1076ac3b7a53fb87bfae71b5b202abf0e85066d004
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.6":
   version: 0.11.6
   resolution: "@humanwhocodes/config-array@npm:0.11.6"
@@ -376,6 +385,29 @@ __metadata:
     chalk: 4.1.2
     cross-spawn: 7.0.3
   checksum: ce0974fb626e8be090a1f3bdba77733135c82f80bb12b579776b9098d025d16717219b35b1b2bf9f9ee971cc395f05a9a29101714bd57bb82612231e70503a61
+  languageName: node
+  linkType: hard
+
+"@react-hookz/deep-equal@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@react-hookz/deep-equal@npm:1.0.3"
+  checksum: d482b43746a0371094b90e1957d3e3a6aa70cbe8bd9cd88c759d8dcf21c2c1f57fbd1846b2103bccc20600e77d04d44e35c320ba9001fb5382c70a9a3385d34a
+  languageName: node
+  linkType: hard
+
+"@react-hookz/web@npm:^16.1.0":
+  version: 16.1.0
+  resolution: "@react-hookz/web@npm:16.1.0"
+  dependencies:
+    "@react-hookz/deep-equal": ^1.0.3
+  peerDependencies:
+    js-cookie: ^3.0.1
+    react: ^16.8 || ^17 || ^18
+    react-dom: ^16.8 || ^17 || ^18
+  peerDependenciesMeta:
+    js-cookie:
+      optional: true
+  checksum: 5eb92b94d673e6252b380e1541696895875eefa373dcf94ec809390a3de221572f31280dff1c43cad56db5b59df2eaf7fb9c478d0300614b067ecf0ea7c30163
   languageName: node
   linkType: hard
 
@@ -3165,9 +3197,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "honcho@workspace:."
   dependencies:
+    "@heroicons/react": ^2.0.12
     "@playwright/test": ^1.26.1
     "@prisma/client": 4.5.0
     "@prisma/generator-helper": ^4.5.0
+    "@react-hookz/web": ^16.1.0
     "@swc-node/core": ^1.9.1
     "@swc-node/register": ^1.5.4
     "@swc/core": ^1.3.9
@@ -3216,7 +3250,7 @@ __metadata:
     react-dom: latest
     start-server-and-test: ^1.12.0
     superjson: ^1.7.4
-    tailwindcss: ^3.2.1
+    tailwindcss: ^3.0.0
     ts-morph: ^16.0.0
     typescript: ^4.8.3
     vite: ^3.1.3
@@ -5496,7 +5530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3, tailwindcss@npm:^3.1.3, tailwindcss@npm:^3.2.1":
+"tailwindcss@npm:^3, tailwindcss@npm:^3.0.0, tailwindcss@npm:^3.1.3":
   version: 3.2.1
   resolution: "tailwindcss@npm:3.2.1"
   dependencies:

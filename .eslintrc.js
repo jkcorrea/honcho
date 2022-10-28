@@ -3,7 +3,7 @@
  */
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'import', 'unused-imports'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'import', 'unused-imports', 'tailwindcss'],
   extends: ['next', 'plugin:prettier/recommended', 'plugin:tailwindcss/recommended'],
   settings: {
     react: {
@@ -60,26 +60,27 @@ module.exports = {
     ],
   },
   overrides: [
-    // {
-    //   files: ['*.ts', '*.tsx'],
-    //   extends: [
-    //     'plugin:@typescript-eslint/recommended',
-    //     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    //   ],
-    //   rules: {
-    //     '@typescript-eslint/explicit-function-return-type': 'off',
-    //     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    //     '@typescript-eslint/no-explicit-any': 'off',
-    //     '@typescript-eslint/no-unused-vars': 'off',
-    //     '@typescript-eslint/no-non-null-assertion': 'off',
-    //     '@typescript-eslint/no-empty-interface': 'off',
-    //     '@typescript-eslint/no-unsafe-assignment': 'off',
-    //   },
-    //   parserOptions: {
-    //     project: 'tsconfig.json',
-    //     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    //     sourceType: 'module', // Allows for the use of imports
-    //   },
-    // },
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+      ],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-empty-interface': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+      },
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        project: ['./tsconfig.json'],
+        ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+        sourceType: 'module', // Allows for the use of imports
+      },
+    },
   ],
 }

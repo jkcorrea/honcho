@@ -1,100 +1,20 @@
-# Prisma + tRPC
+# honcho.js
 
-## Features
+> This is a very early prototype. APIs, UI, and basically everything **will** break *frequently*.
 
-- 🧙‍♂️ E2E typesafety with [tRPC](https://trpc.io)
-- ⚡ Full-stack React with Next.js
-- ⚡ Database with Prisma
-- ⚙️ VSCode extensions
-- 🎨 ESLint + Prettier
-- 💚 CI setup using GitHub Actions:
-  - ✅ E2E testing with [Playwright](https://playwright.dev/)
-  - ✅ Linting
-- 🔐 Validates your env vars on build and start
+Honcho.js is an opinionated but overridable CRUD admin interface for your SQL-based app (currently supporting only what [Prisma](https://www.prisma.io/docs/reference/database-reference/supported-databases) does).
 
+The design goals for Honcho are:
 
-## Setup
-
-**yarn:**
-```bash
-yarn create next-app --example https://github.com/trpc/trpc --example-path examples/next-prisma-starter trpc-prisma-starter
-cd trpc-prisma-starter
-yarn
-yarn dx
-```
-
-**npm:**
-
-```bash
-npx create-next-app --example https://github.com/trpc/trpc --example-path examples/next-prisma-starter trpc-prisma-starter
-cd trpc-prisma-starter
-yarn
-yarn dx
-```
-
-
-### Requirements
-
-- Node >= 14
-- Postgres
-
-## Development
-
-### Start project
-
-```bash
-yarn create next-app --example https://github.com/trpc/trpc --example-path examples/next-prisma-starter trpc-prisma-starter
-cd trpc-prisma-starter
-yarn
-yarn dx
-```
-
-### Commands
-
-```bash
-yarn build      # runs `prisma generate` + `prisma migrate` + `next build`
-yarn db-reset   # resets local db
-yarn dev        # starts next.js
-yarn dx         # starts postgres db + runs migrations + seeds + starts next.js 
-yarn test-dev   # runs e2e tests on dev
-yarn test-start # runs e2e tests on `next start` - build required before
-yarn test:unit  # runs normal jest unit tests
-yarn test:e2e   # runs e2e tests
-```
-
-## Deployment
-
-### Using [Render](https://render.com/)
-
-The project contains a [`render.yaml`](./render.yaml) [*"Blueprint"*](https://render.com/docs/blueprint-spec) which makes the project easily deployable on [Render](https://render.com/).
-
-Go to [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints) and connect to this Blueprint and see how the app and database automatically gets deployed.
-
-## Files of note
-
-<table>
-  <thead>
-    <tr>
-      <th>Path</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="./prisma/schema.prisma"><code>./prisma/schema.prisma</code></a></td>
-      <td>Prisma schema</td>
-    </tr>
-    <tr>
-      <td><a href="./src/pages/api/trpc/[trpc].ts"><code>./src/pages/api/trpc/[trpc].ts</code></a></td>
-      <td>tRPC response handler</td>
-    </tr>
-    <tr>
-      <td><a href="./src/server/routers"><code>./src/server/routers</code></a></td>
-      <td>Your app's different tRPC-routers</td>
-    </tr>
-  </tbody>
-</table>
-
----
-
-Created by [@alexdotjs](https://twitter.com/alexdotjs).
+- Sensible out-of-the-box experience
+  - It shouldn't take more than 5 minutes, and 5 clicks to go from nothing to a "pretty good" admin dashboard for your app
+  - Column types, cell components, filtering, sorting, search, etc should all just work & with sensible defaults (`DateTime` fields should print formatted dates, relational columns should link to the corresponding table, etc)
+- Overridable
+  - While sensible defaults are a good start, we can't capture every use case.
+  - Where possible, users should be able to override sections with their own custom code
+  - This is highly TBD, but likely candidates are:
+    1. Cells (write custom react components to render different cell types)
+    1. Resolvers (run your own queries or merge other datasources into a table)
+    1. Detail pages (when clicking a row to view it in detail)
+- Open-source & Ejectable
+  - Users should be able to "eject" the project at any time & have a modern, well-typed codebase from which they can continue hacking away should overrides not give enough flexibility.

@@ -749,16 +749,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.0.0-proxy-beta.21":
-  version: 10.0.0-proxy-beta.25
-  resolution: "@trpc/react-query@npm:10.0.0-proxy-beta.25"
+"@trpc/react-query@npm:^10.0.0-rc.1":
+  version: 10.0.0-rc.1
+  resolution: "@trpc/react-query@npm:10.0.0-rc.1"
   peerDependencies:
     "@tanstack/react-query": ^4.3.8
-    "@trpc/client": 10.0.0-proxy-beta.25
-    "@trpc/server": 10.0.0-proxy-beta.25
+    "@trpc/client": 10.0.0-rc.1
+    "@trpc/server": 10.0.0-rc.1
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 917239c0058d0b9f62419b4756d83cfa2815c0a99e18f6d6ba0a8e77977222c0c1b5a1d53222f80b875fc79d00fbe859e044799eac2d3e8783f521ff1348a5c8
+  checksum: 628756696ff934a3d7ca6bf299f4cd9f644a4ec3570c31b816c87c7e907e76c2640aeaed844d9c0f5c81a2e130bedc2769cb330cbbab8ff1a73ec09776b231a8
   languageName: node
   linkType: hard
 
@@ -3179,7 +3179,7 @@ __metadata:
     "@tanstack/react-table": ^8.5.15
     "@trpc/client": ^10.0.0-proxy-beta.21
     "@trpc/next": ^10.0.0-proxy-beta.21
-    "@trpc/react-query": ^10.0.0-proxy-beta.21
+    "@trpc/react-query": ^10.0.0-rc.1
     "@trpc/server": ^10.0.0-proxy-beta.21
     "@types/commander": ^2.12.2
     "@types/fs-extra": ^9.0.13

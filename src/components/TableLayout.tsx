@@ -16,7 +16,7 @@ export const TableLayout = ({ children }: TableLayoutProps) => {
   const model = pageQuery.success ? pageQuery.data.model : null
 
   return (
-    <div className="drawer drawer-mobile">
+    <div className="drawer drawer-mobile flex-1 !h-auto">
       <input id="nav-drawer" type="checkbox" className="drawer-toggle" />
 
       {/* Drawer Content */}

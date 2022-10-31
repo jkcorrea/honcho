@@ -8,7 +8,7 @@ import '~/assets/styles/globals.css'
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <div className="relative flex flex-col w-full h-full">
+    <div className="relative flex flex-col w-full h-screen">
       <Navbar />
       <Component {...pageProps} />
     </div>

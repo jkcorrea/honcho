@@ -794,10 +794,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.0.0-proxy-beta.21":
-  version: 10.0.0-proxy-beta.25
-  resolution: "@trpc/server@npm:10.0.0-proxy-beta.25"
-  checksum: 785cff762b23bf57ca76df79a92410ad1c536c16434e051715fe79b1890d3eeb05507191d5617675b9fa75563620b44abfbce97b510202e66e4bf3894ade30f6
+"@trpc/server@npm:^10.0.0-rc.2":
+  version: 10.0.0-rc.2
+  resolution: "@trpc/server@npm:10.0.0-rc.2"
+  checksum: 172d894c119113185885eeefae553b4fc793e59cd73aec70b21f12b0413ace1d72940a89d96ffc6645b7cc580326f28d851371c183b94a5d76c55c476408a33a
   languageName: node
   linkType: hard
 
@@ -3214,7 +3214,7 @@ __metadata:
     "@trpc/client": ^10.0.0-proxy-beta.21
     "@trpc/next": ^10.0.0-proxy-beta.21
     "@trpc/react-query": ^10.0.0-proxy-beta.21
-    "@trpc/server": ^10.0.0-proxy-beta.21
+    "@trpc/server": ^10.0.0-rc.2
     "@types/commander": ^2.12.2
     "@types/fs-extra": ^9.0.13
     "@types/jest": ^29.2.0

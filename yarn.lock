@@ -781,16 +781,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.0.0-rc.2":
-  version: 10.0.0-rc.2
-  resolution: "@trpc/react-query@npm:10.0.0-rc.2"
+"@trpc/react-query@npm:^10.0.0-rc.3":
+  version: 10.0.0-rc.3
+  resolution: "@trpc/react-query@npm:10.0.0-rc.3"
   peerDependencies:
     "@tanstack/react-query": ^4.3.8
-    "@trpc/client": 10.0.0-rc.2
-    "@trpc/server": 10.0.0-rc.2
+    "@trpc/client": 10.0.0-rc.3
+    "@trpc/server": 10.0.0-rc.3
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: ea3003d6f01a678c06f3205326e1e6f8824aa6883fa25c1e721e96072a1970afb8aeb19def5e10c5d0593ae2bc671cba74a5c73952d63533861627e62915ae6b
+  checksum: c0e4321759f4f8e84d26a7d7036db6891b3c00379d0de6289226ae8176b723612482aa4d2625c676fe46ddeb937be39e86d77331b40bb0a6274c7c72b16a400e
   languageName: node
   linkType: hard
 
@@ -3220,7 +3220,7 @@ __metadata:
     "@tanstack/react-table": ^8.5.15
     "@trpc/client": ^10.0.0-rc.2
     "@trpc/next": ^10.0.0-rc.2
-    "@trpc/react-query": ^10.0.0-rc.2
+    "@trpc/react-query": ^10.0.0-rc.3
     "@trpc/server": ^10.0.0-rc.2
     "@types/commander": ^2.12.2
     "@types/fs-extra": ^9.0.13

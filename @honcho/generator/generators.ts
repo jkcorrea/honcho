@@ -11,6 +11,7 @@ import {
   getZodConstructor,
   humanName,
   metaName,
+  routerName,
   schemaName,
   schemaTypeName,
   unrelatedSchemaName,
@@ -23,25 +24,26 @@ export class ModelGenerator {
   private indexFile: SourceFile
   private schemaFile: SourceFile
   private columnsFile: SourceFile
-  private resolversFile: SourceFile
+  private routerFile: SourceFile
 
   constructor(model: DMMF.Model, project: Project, outDir: string) {
     this.model = model
 
     const modelOutDir = path.join(outDir, `${model.name.toLowerCase()}`)
     this.indexFile = project.createSourceFile(path.join(modelOutDir, 'index.ts'), {}, { overwrite: true })
+    this.routerFile = project.createSourceFile(path.join(modelOutDir, 'router.ts'), {}, { overwrite: true })
     this.schemaFile = project.createSourceFile(path.join(modelOutDir, 'schema.ts'), {}, { overwrite: true })
     this.columnsFile = project.createSourceFile(path.join(modelOutDir, 'columns.ts'), {}, { overwrite: true })
-    this.resolversFile = project.createSourceFile(path.join(modelOutDir, 'resolvers.ts'), {}, { overwrite: true })
   }
 
   public run() {
     this.generateSchemaFile()
     this.generateColumnsFile()
+    this.generateRouterFile()
     this.generateIndexFile()
 
     // Format each
-    ;[this.indexFile, this.schemaFile, this.columnsFile, this.resolversFile].forEach((f) =>
+    ;[this.indexFile, this.schemaFile, this.columnsFile, this.routerFile].forEach((f) =>
       f.formatText({
         indentSize: 2,
         convertTabsToSpaces: true,
@@ -196,7 +198,7 @@ export class ModelGenerator {
     this.columnsFile.addImportDeclarations([
       {
         kind: StructureKind.ImportDeclaration,
-        namedImports: ['createColumnHelper', 'ColumnDef'],
+        namedImports: ['createColumnHelper', 'IdentifiedColumnDef'],
         moduleSpecifier: '@tanstack/react-table',
       },
       {
@@ -228,31 +230,78 @@ export class ModelGenerator {
         declarations: [
           {
             name: columnsName(model.name),
-            type: `ColumnDef<${schemaType}, any>[]`,
+            type: `Record<keyof ${schemaType}, IdentifiedColumnDef<${schemaType}, any>>`,
             initializer(writer) {
-              writer
-                .writeLine('[')
-                .indent(() => {
-                  model.fields
-                    .filter((f) => f.kind !== 'object')
-                    .forEach((field) =>
-                      writer
-                        .write(`colHelper.accessor('${field.name}', `)
-                        .block(() => {
-                          writeArray(writer, [
-                            `cell: ${getCellRenderer(field)},`,
-                            `header: '${humanName(field.name)}',`,
-                          ])
-                        })
-                        .writeLine('),'),
-                    )
-                })
-                .writeLine(']')
+              writer.inlineBlock(() => {
+                model.fields
+                  .filter((f) => f.kind !== 'object')
+                  .forEach((field) =>
+                    writer
+                      .newLineIfLastNot()
+                      .write(`${field.name}: colHelper.accessor('${field.name}' ,`)
+                      .inlineBlock(() => {
+                        writer.writeLine(`cell: ${getCellRenderer(field)},`)
+                        writer.writeLine(`header: '${humanName(field.name)}',`)
+                      })
+                      .write('),'),
+                  )
+              })
             },
           },
         ],
       },
     ])
+  }
+
+  private generateRouterFile() {
+    const model = this.model
+
+    this.routerFile.addImportDeclaration({
+      kind: StructureKind.ImportDeclaration,
+      namedImports: ['router', 'resourceProcedure'],
+      moduleSpecifier: '@honcho/server',
+    })
+
+    this.routerFile.addVariableStatements([
+      {
+        declarationKind: VariableDeclarationKind.Const,
+        isExported: true,
+        leadingTrivia: (w) => w.blankLineIfLastNot(),
+        declarations: [
+          {
+            name: 'findMany',
+            initializer(writer) {
+              writer
+                .write(`resourceProcedure.query(({ ctx }) => `)
+                .inlineBlock(() => writer.writeLine('return ctx.prisma.event.findMany()'))
+                .write(')')
+            },
+          },
+        ],
+      },
+      {
+        declarationKind: VariableDeclarationKind.Const,
+        leadingTrivia: (w) => w.blankLineIfLastNot(),
+        declarations: [
+          {
+            name: routerName(model.name),
+            initializer(writer) {
+              writer
+                .write('router(')
+                .inlineBlock(() => {
+                  writer.writeLine('findMany,')
+                })
+                .write(')')
+            },
+          },
+        ],
+      },
+    ])
+
+    this.routerFile.addExportAssignment({
+      expression: routerName(model.name),
+      isExportEquals: false,
+    })
   }
 
   private generateIndexFile() {
@@ -310,11 +359,7 @@ export class ModelGenerator {
     })
 
     // Export everything else from all our files
-    this.indexFile.addExportDeclarations([
-      { moduleSpecifier: './columns' },
-      { moduleSpecifier: './resolvers' },
-      { moduleSpecifier: './schema' },
-    ])
+    this.indexFile.addExportDeclarations([{ moduleSpecifier: './columns' }, { moduleSpecifier: './schema' }])
   }
 }
 
@@ -326,10 +371,12 @@ export class ModelGenerator {
 export const generateBarrelFile = (models: DMMF.Model[], indexFile: SourceFile) => {
   // Import all the model metas
   models.forEach((model) => {
-    indexFile.addImportDeclaration({
-      moduleSpecifier: `./${model.name.toLowerCase()}`,
-      defaultImport: metaName(model.name),
-    })
+    indexFile.addImportDeclarations([
+      {
+        moduleSpecifier: `./${model.name.toLowerCase()}`,
+        defaultImport: metaName(model.name),
+      },
+    ])
 
     // Re-export everything
     indexFile.addExportDeclaration({
@@ -374,6 +421,54 @@ export const generateBarrelFile = (models: DMMF.Model[], indexFile: SourceFile) 
   })
 
   indexFile.formatText({
+    indentSize: 2,
+    convertTabsToSpaces: true,
+    semicolons: SemicolonPreference.Remove,
+  })
+}
+
+/**
+ * Generates the top-level honcho router file.
+ * NOTE: We separate this out so the frontend doesn't import server code defined in the routers.
+ */
+export const generateHonchoRouterFile = (models: DMMF.Model[], routerFile: SourceFile) => {
+  routerFile.addImportDeclaration({
+    trailingTrivia: (w) => w.blankLine(),
+    namedImports: ['router'],
+    moduleSpecifier: '@honcho/server',
+  })
+
+  // Import all the model metas
+  models.forEach((model) => {
+    routerFile.addImportDeclaration({
+      moduleSpecifier: `./${model.name.toLowerCase()}/router`,
+      defaultImport: routerName(model.name),
+    })
+  })
+
+  // Combine resource routers
+  routerFile.addVariableStatement({
+    declarationKind: VariableDeclarationKind.Const,
+    isExported: true,
+    declarations: [
+      {
+        name: 'resourceRouter',
+        initializer(writer) {
+          writer
+            .write('router(')
+            .inlineBlock(() => {
+              writeArray(
+                writer,
+                models.map((m) => `${m.name}: ${routerName(m.name)},`),
+              )
+            })
+            .write(')')
+        },
+      },
+    ],
+  })
+
+  routerFile.formatText({
     indentSize: 2,
     convertTabsToSpaces: true,
     semicolons: SemicolonPreference.Remove,

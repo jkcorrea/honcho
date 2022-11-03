@@ -13,6 +13,7 @@ export const unrelatedSchemaName = (name: string) => `__${schemaName(name)}`
 export const schemaTypeName = (name: string) => `T${schemaName(name)}`
 export const unrelatedSchemaTypeName = (name: string) => `__${schemaTypeName(name)}`
 export const columnsName = (name: string) => `${pascalCase(name)}Columns`
+export const routerName = (name: string) => `${pascalCase(name)}Router`
 
 export const chunk = <T extends any[]>(input: T, size: number): T[] => {
   return input.reduce(

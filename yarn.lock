@@ -755,49 +755,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:^10.0.0-proxy-beta.21":
-  version: 10.0.0-proxy-beta.25
-  resolution: "@trpc/client@npm:10.0.0-proxy-beta.25"
+"@trpc/client@npm:^10.0.0-rc.2":
+  version: 10.0.0-rc.2
+  resolution: "@trpc/client@npm:10.0.0-rc.2"
   peerDependencies:
-    "@trpc/server": 10.0.0-proxy-beta.25
-  checksum: 6a029ccd62d727d6cb0597563602ba6ea5395b985ecd66911378ca6316da88da9546e61f547b70c14b26571d372b3feaa0cae98906e4f682d8691b5f4ebd6c11
+    "@trpc/server": 10.0.0-rc.2
+  checksum: 6821ed3f6359b7b07823ee63f35396fb85acbd8604cedd76a62bdf8d6b4a623123ef79603f63c776a890f322572d039aa28b48b5ebd72fbd199115a83cfbc586
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:^10.0.0-proxy-beta.21":
-  version: 10.0.0-proxy-beta.25
-  resolution: "@trpc/next@npm:10.0.0-proxy-beta.25"
+"@trpc/next@npm:^10.0.0-rc.2":
+  version: 10.0.0-rc.2
+  resolution: "@trpc/next@npm:10.0.0-rc.2"
   dependencies:
     react-ssr-prepass: ^1.5.0
   peerDependencies:
     "@tanstack/react-query": ^4.3.8
-    "@trpc/client": 10.0.0-proxy-beta.25
+    "@trpc/client": 10.0.0-rc.2
     "@trpc/react-query": ^10.0.0-proxy-beta.21
-    "@trpc/server": 10.0.0-proxy-beta.25
+    "@trpc/server": 10.0.0-rc.2
     next: "*"
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 88620d4ac40df25222deacf3cce7595cfc10b9a69c0bd925b3837ff776afcf3fdb0945b2c95f56ad85133b0f5f399c494cffee55e4366fddddf892dcc4c6acea
+  checksum: dc3771287e800ccf823480f2a7e496264a3896dcb4fc1b4a30fddcd2690ec20072c2864f46a60db6d055c277e89278765a4ff2f0218cb7adae2026f53d7871c2
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.0.0-proxy-beta.21":
-  version: 10.0.0-proxy-beta.25
-  resolution: "@trpc/react-query@npm:10.0.0-proxy-beta.25"
+"@trpc/react-query@npm:^10.0.0-rc.2":
+  version: 10.0.0-rc.2
+  resolution: "@trpc/react-query@npm:10.0.0-rc.2"
   peerDependencies:
     "@tanstack/react-query": ^4.3.8
-    "@trpc/client": 10.0.0-proxy-beta.25
-    "@trpc/server": 10.0.0-proxy-beta.25
+    "@trpc/client": 10.0.0-rc.2
+    "@trpc/server": 10.0.0-rc.2
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 917239c0058d0b9f62419b4756d83cfa2815c0a99e18f6d6ba0a8e77977222c0c1b5a1d53222f80b875fc79d00fbe859e044799eac2d3e8783f521ff1348a5c8
+  checksum: ea3003d6f01a678c06f3205326e1e6f8824aa6883fa25c1e721e96072a1970afb8aeb19def5e10c5d0593ae2bc671cba74a5c73952d63533861627e62915ae6b
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.0.0-proxy-beta.21":
-  version: 10.0.0-proxy-beta.25
-  resolution: "@trpc/server@npm:10.0.0-proxy-beta.25"
-  checksum: 785cff762b23bf57ca76df79a92410ad1c536c16434e051715fe79b1890d3eeb05507191d5617675b9fa75563620b44abfbce97b510202e66e4bf3894ade30f6
+"@trpc/server@npm:^10.0.0-rc.2":
+  version: 10.0.0-rc.2
+  resolution: "@trpc/server@npm:10.0.0-rc.2"
+  checksum: 172d894c119113185885eeefae553b4fc793e59cd73aec70b21f12b0413ace1d72940a89d96ffc6645b7cc580326f28d851371c183b94a5d76c55c476408a33a
   languageName: node
   linkType: hard
 
@@ -1849,6 +1849,13 @@ __metadata:
   version: 1.0.8
   resolution: "damerau-levenshtein@npm:1.0.8"
   checksum: d240b7757544460ae0586a341a53110ab0a61126570ef2d8c731e3eab3f0cb6e488e2609e6a69b46727635de49be20b071688698744417ff1b6c1d7ccd03e0de
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.6":
+  version: 1.11.6
+  resolution: "dayjs@npm:1.11.6"
+  checksum: 18bdfd927009b68eab08dca578e421d4a581cefcbe9337f54c5d9e0d941ffb6b221c4b2c1cab15cdd9d419940e768ac4c984531461a90bbe1c158b75fe160580
   languageName: node
   linkType: hard
 
@@ -3211,10 +3218,10 @@ __metadata:
     "@tailwindcss/typography": ^0.5.7
     "@tanstack/react-query": ^4.3.8
     "@tanstack/react-table": ^8.5.15
-    "@trpc/client": ^10.0.0-proxy-beta.21
-    "@trpc/next": ^10.0.0-proxy-beta.21
-    "@trpc/react-query": ^10.0.0-proxy-beta.21
-    "@trpc/server": ^10.0.0-proxy-beta.21
+    "@trpc/client": ^10.0.0-rc.2
+    "@trpc/next": ^10.0.0-rc.2
+    "@trpc/react-query": ^10.0.0-rc.2
+    "@trpc/server": ^10.0.0-rc.2
     "@types/commander": ^2.12.2
     "@types/fs-extra": ^9.0.13
     "@types/jest": ^29.2.0
@@ -3228,6 +3235,7 @@ __metadata:
     code-block-writer: ^11.0.3
     commander: ^9.4.1
     daisyui: ^2.33.0
+    dayjs: ^1.11.6
     eslint: ^8.26.0
     eslint-config-next: latest
     eslint-config-prettier: ^8.5.0

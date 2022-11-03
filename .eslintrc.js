@@ -64,7 +64,7 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       extends: [
         'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
       ],
       rules: {
         '@typescript-eslint/explicit-function-return-type': 'off',
@@ -74,6 +74,7 @@ module.exports = {
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
       },
       parserOptions: {
         tsconfigRootDir: __dirname,

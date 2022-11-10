@@ -1,4 +1,4 @@
-import { capitalCase, pascalCase } from 'change-case'
+import { pascalCase } from 'change-case'
 import type { CodeBlockWriter } from 'ts-morph'
 
 import { DMMF } from '@prisma/generator-helper'
@@ -6,14 +6,9 @@ import { DMMF } from '@prisma/generator-helper'
 export const writeArray = (writer: CodeBlockWriter, array: string[], newLine = true) =>
   array.forEach((line) => writer.write(line).conditionalNewLine(newLine))
 
-export const metaName = (name: string) => `${pascalCase(name)}Meta`
-export const humanName = (name: string) => capitalCase(name)
 export const schemaName = (name: string) => `${pascalCase(name)}Schema`
-export const unrelatedSchemaName = (name: string) => `__${schemaName(name)}`
-export const schemaTypeName = (name: string) => `T${schemaName(name)}`
-export const unrelatedSchemaTypeName = (name: string) => `__${schemaTypeName(name)}`
-export const columnsName = (name: string) => `${pascalCase(name)}Columns`
-export const routerName = (name: string) => `${pascalCase(name)}Router`
+export const schemaTypeName = (name: string) => `T${pascalCase(name)}`
+export const resourceName = (name: string) => `${pascalCase(name)}Resource`
 
 export const chunk = <T extends any[]>(input: T, size: number): T[] => {
   return input.reduce(
@@ -87,30 +82,4 @@ export const getZodConstructor = (field: DMMF.Field) => {
   // if (field.hasDefaultValue) extraModifiers.push('optional()')
 
   return `${zodType}${extraModifiers.join('.')}`
-}
-
-export const getCellRenderer = (field: DMMF.Field) => {
-  let renderer = 'undefined'
-
-  switch (field.type) {
-    case 'DateTime':
-      renderer = 'cells.renderDate'
-      break
-    case 'String':
-    case 'Int':
-    case 'BigInt':
-    case 'Float':
-    case 'Decimal':
-    case 'Boolean':
-    case 'Json':
-    case 'Bytes':
-      renderer = 'cells.renderDefault'
-  }
-
-  return renderer
-  // } else if (field.kind === 'enum') {
-  // } else if (field.kind === 'object') {
-  // if (field.isList) extraModifiers.push('array()')
-  // if (!field.isRequired && field.type !== 'Json') extraModifiers.push('nullish()')
-  // if (field.hasDefaultValue) extraModifiers.push('optional()')
 }

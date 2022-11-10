@@ -4,7 +4,7 @@ import { Project } from 'ts-morph'
 
 import { generatorHandler } from '@prisma/generator-helper'
 
-import { generateBarrelFile, generateHonchoRouterFile, ModelGenerator } from './generators'
+import { generateBarrelFile, generateResourceFile } from './generators'
 
 generatorHandler({
   onManifest() {
@@ -35,12 +35,11 @@ generatorHandler({
 
     const indexFile = project.createSourceFile(path.join(outDir, 'index.ts'), {}, { overwrite: true })
     generateBarrelFile(models, indexFile)
-    const routerFile = project.createSourceFile(path.join(outDir, 'router.ts'), {}, { overwrite: true })
-    generateHonchoRouterFile(models, routerFile)
 
-    models.forEach((model) => {
-      new ModelGenerator(model, project, outDir).run()
-    })
+    for (const model of models) {
+      const file = project.createSourceFile(path.join(outDir, `${model.name}.tsx`), {}, { overwrite: true })
+      generateResourceFile(model, file)
+    }
 
     return project.save()
   },

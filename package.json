@@ -2,6 +2,9 @@
   "name": "honcho",
   "version": "0.0.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "start": "next start",
@@ -12,7 +15,7 @@
     "test:e2e": "playwright test",
     "test-dev": "start-server-and-test 'next dev' 3000 test",
     "test-start": "start-server-and-test start 3000 test",
-    "honcho-prisma": "node -r @swc-node/register ./@honcho/generator/index.ts"
+    "honcho-prisma": "node -r @swc-node/register ./packages/generator/index.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.12",

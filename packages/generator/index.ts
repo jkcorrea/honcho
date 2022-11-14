@@ -37,7 +37,11 @@ generatorHandler({
     generateBarrelFile(models, indexFile)
 
     for (const model of models) {
-      const file = project.createSourceFile(path.join(outDir, `${model.name}.tsx`), {}, { overwrite: true })
+      const file = project.createSourceFile(
+        path.join(outDir, 'resources', `${model.name}.tsx`),
+        {},
+        { overwrite: true },
+      )
       generateResourceFile(model, file)
     }
 

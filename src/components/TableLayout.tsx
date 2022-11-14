@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { models } from '@honcho/generated'
+import { resources } from '@honcho/generated'
 
 import { TablePageQuerySchema } from '~/utils/helpers'
 
@@ -13,7 +13,7 @@ export type TableLayoutProps = { children: ReactNode }
 export const TableLayout = ({ children }: TableLayoutProps) => {
   const router = useRouter()
   const pageQuery = TablePageQuerySchema.safeParse(router.query)
-  const model = pageQuery.success ? pageQuery.data.model : null
+  const resource = pageQuery.success ? pageQuery.data.resource : null
 
   return (
     <div className="drawer drawer-mobile flex-1 !h-auto">
@@ -30,12 +30,12 @@ export const TableLayout = ({ children }: TableLayoutProps) => {
             <h2 className="text-lg font-bold">Tables</h2>
           </div>
           <ul className="menu overflow-y">
-            {Object.keys(models).map((name) => {
+            {Object.keys(resources).map((name) => {
               const href = `/t/${name}`
 
               return (
                 <li key={name}>
-                  <Link href={href} className={clsx(model === name && 'active')}>
+                  <Link href={href} className={clsx(resource === name && 'active')}>
                     {capitalCase(name)}
                   </Link>
                 </li>

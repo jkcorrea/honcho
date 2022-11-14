@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"],
-      "@honcho/*": ["./@honcho/*"]
+      "@honcho/*": ["./packages/*"]
     },
     "plugins": [{ "name": "next" }]
   },

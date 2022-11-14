@@ -9,6 +9,7 @@ export const writeArray = (writer: CodeBlockWriter, array: string[], newLine = t
 export const schemaName = (name: string) => `${pascalCase(name)}Schema`
 export const schemaTypeName = (name: string) => `T${pascalCase(name)}`
 export const resourceName = (name: string) => `${pascalCase(name)}Resource`
+export const columnsName = (name: string) => `${pascalCase(name)}Columns`
 
 export const chunk = <T extends any[]>(input: T, size: number): T[] => {
   return input.reduce(

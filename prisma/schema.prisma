@@ -4,7 +4,7 @@ generator client {
 
 generator zod {
   provider = "yarn honcho-prisma"
-  output   = "../@honcho/generated"
+  output   = "../node_modules/@honcho/generated"
 }
 
 datasource db {

@@ -1,3 +1,4 @@
+import { ColumnDef } from '@tanstack/react-table'
 import { capitalCase } from 'change-case'
 import { z } from 'zod'
 
@@ -7,6 +8,16 @@ import { safeObject } from './internals/utils'
 export type ResourceMeta = {
   displayName?: string
   order?: number
+}
+
+export type ResourceColumn<TData, TValue = unknown> = {
+  render?: ColumnDef<TData, TValue>['cell']
+  title?: string
+  order?: number
+}
+
+export type ResourceColumns<TResource extends AnyResource> = {
+  [K in keyof TResource['_z']]?: ResourceColumn<TResource['_z'], TResource['_z'][K]>
 }
 
 /** Configuration for a column within a resource */
@@ -86,3 +97,5 @@ export class Resource<
     return this
   }
 }
+
+export type AnyResource = Resource<any, any, any>

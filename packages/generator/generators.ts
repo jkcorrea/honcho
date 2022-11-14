@@ -4,7 +4,7 @@ import { SemicolonPreference } from 'typescript'
 
 import { DMMF } from '@prisma/generator-helper'
 
-import { getZodConstructor, resourceName, schemaName, schemaTypeName } from './util'
+import { getZodConstructor, resourceName, schemaName, schemaTypeName, writeArray } from './util'
 
 export function generateResourceFile(model: DMMF.Model, file: SourceFile) {
   // #region Imports
@@ -98,6 +98,7 @@ export function generateResourceFile(model: DMMF.Model, file: SourceFile) {
     {
       declarationKind: VariableDeclarationKind.Const,
       isExported: true,
+      leadingTrivia: (w) => w.blankLineIfLastNot(),
       declarations: [
         {
           name: 'columns',
@@ -123,6 +124,7 @@ export function generateResourceFile(model: DMMF.Model, file: SourceFile) {
     {
       declarationKind: VariableDeclarationKind.Const,
       isExported: true,
+      leadingTrivia: (w) => w.blankLineIfLastNot(),
       declarations: [
         {
           name: 'resolvers',
@@ -178,15 +180,53 @@ export function generateResourceFile(model: DMMF.Model, file: SourceFile) {
  *
  * Also exports a `models` helper that contains a map of all ModelMetas.
  */
-export const generateBarrelFile = (models: DMMF.Model[], indexFile: SourceFile) => {
+export const generateBarrelFile = (models: DMMF.Model[], file: SourceFile) => {
   models.forEach((model) => {
-    // Re-export everything
-    indexFile.addExportDeclaration({
-      moduleSpecifier: `./${model.name.toLowerCase()}`,
-    })
+    file.addImportDeclarations([
+      {
+        namespaceImport: resourceName(model.name),
+        moduleSpecifier: `./resources/${model.name.toLowerCase()}`,
+      },
+    ])
   })
 
-  indexFile.formatText({
+  // Create a ModelMeta map & export it
+  file.addVariableStatement({
+    declarationKind: VariableDeclarationKind.Const,
+    isExported: true,
+    leadingTrivia: (writer) => writer.blankLineIfLastNot(),
+    declarations: [
+      {
+        name: 'resources',
+        initializer(writer) {
+          writer
+            .write('Object.freeze(')
+            .inlineBlock(() => {
+              writeArray(
+                writer,
+                models.map(({ name }) => `${name}: ${resourceName(name)},`),
+              )
+            })
+            .write(')')
+        },
+      },
+    ],
+  })
+
+  // Export a helper to determine if a model name is valid
+  file.addVariableStatement({
+    declarationKind: VariableDeclarationKind.Const,
+    isExported: true,
+    leadingTrivia: (writer) => writer.blankLineIfLastNot(),
+    declarations: [
+      {
+        name: 'isValidResource',
+        initializer: `(name: string): name is keyof typeof resources => name in resources`,
+      },
+    ],
+  })
+
+  file.formatText({
     indentSize: 2,
     convertTabsToSpaces: true,
     semicolons: SemicolonPreference.Remove,

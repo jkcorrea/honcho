@@ -794,10 +794,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.0.0-rc.2":
-  version: 10.0.0-rc.2
-  resolution: "@trpc/server@npm:10.0.0-rc.2"
-  checksum: 172d894c119113185885eeefae553b4fc793e59cd73aec70b21f12b0413ace1d72940a89d96ffc6645b7cc580326f28d851371c183b94a5d76c55c476408a33a
+"@trpc/server@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "@trpc/server@npm:10.0.0"
+  checksum: 7e8ffc155b1f726e5d1b901884a8d9ea64db3b4ebd41f0117bb136780d724ca19fc72b96982fdb454912a54570f59200eb9d5dd239d9bc922e2eab39302039e7
   languageName: node
   linkType: hard
 
@@ -3221,7 +3221,7 @@ __metadata:
     "@trpc/client": ^10.0.0-rc.2
     "@trpc/next": ^10.0.0-rc.2
     "@trpc/react-query": ^10.0.0-rc.2
-    "@trpc/server": ^10.0.0-rc.2
+    "@trpc/server": ^10.0.0
     "@types/commander": ^2.12.2
     "@types/fs-extra": ^9.0.13
     "@types/jest": ^29.2.0

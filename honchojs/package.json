@@ -1,0 +1,84 @@
+{
+  "name": "honchojs",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "bin": {
+    "honcho": "./dist/cli.js",
+    "honchojs": "./dist/cli.js",
+    "honcho-prisma-generator": "./dist/prisma-generator.js"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsup",
+    "dev": "tsup --watch",
+    "prepack": "pnpm build"
+  },
+  "exports": {
+    ".": "./dist/*",
+    "./vite-plugin": "./dist/vite-plugin.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*.d.ts"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "react": "18",
+    "react-dom": "18",
+    "vite": "3"
+  },
+  "dependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/types": "^7.20.2",
+    "@fastify/compress": "^6.1.1",
+    "@fastify/middie": "^8.0.0",
+    "@fastify/static": "^6.5.0",
+    "@heroicons/react": "^2.0.12",
+    "@prisma/client": "^4.6.1",
+    "@prisma/generator-helper": "^4.5.0",
+    "@react-hookz/web": "^16.1.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.7",
+    "@tanstack/react-query": "^4.3.8",
+    "@tanstack/react-table": "^8.5.15",
+    "@vitejs/plugin-react": "^2.0.1",
+    "autoprefixer": "^10.4.13",
+    "cac": "^6.7.14",
+    "change-case": "^4.1.2",
+    "chokidar": "^3.5.3",
+    "clsx": "^1.2.1",
+    "daisyui": "^2.33.0",
+    "dayjs": "^1.11.6",
+    "dotenv": "^16.0.3",
+    "fast-glob": "^3.2.12",
+    "fastify": "^4.9.2",
+    "fastify-qs": "^4.0.1",
+    "fs-extra": "^10.1.0",
+    "honcho": "^0.3.3",
+    "picocolors": "^1.0.0",
+    "postcss": "^8.4.19",
+    "prisma": "^4.6.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-streaming": "^0.3.5",
+    "superjson": "^1.11.0",
+    "tailwindcss": "^3.2.3",
+    "ts-morph": "^16.0.0",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.3",
+    "vite": "^3.0.9",
+    "vite-plugin-ssr": "^0.4.48",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.20",
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^17.0.31",
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.3",
+    "vite-plugin-inspect": "^0.7.8"
+  }
+}

@@ -1,27 +1,27 @@
 {
+  "name": "honchojs",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "dev": "npm run server",
-    "prod": "npm run build && npm run server:prod",
-    "build": "vite build",
-    "server": "tsx ./server.ts",
-    "server:prod": "cross-env NODE_ENV=production ts-node ./server"
+    "dev": "pnpm -r --parallel --filter \"./honchojs\" run dev",
+    "build": "pnpm -r --filter \"./honchojs\" run build"
   },
-  "dependencies": {
-    "@types/compression": "^1.7.2",
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.31",
-    "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.3",
-    "@vitejs/plugin-react": "^2.0.1",
-    "compression": "^1.7.4",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
     "cross-env": "^7.0.3",
-    "express": "^4.18.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "sirv": "^2.0.2",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4",
-    "vite": "^3.0.9",
-    "vite-plugin-ssr": "^0.4.48"
-  }
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "eslint-plugin-tailwindcss": "^3.6.2",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "tsx": "^3.12.0",
+    "typescript": "^4.9.3"
+  },
+  "packageManager": "pnpm@7.13.5"
 }

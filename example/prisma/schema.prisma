@@ -1,0 +1,285 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+generator honcho {
+  provider = "honcho-prisma-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model api_key {
+  id             String       @id
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime
+  name           String
+  key            String       @unique @db.VarChar(32)
+  organizationId String
+  organization   organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model camera {
+  id                                String                           @id
+  createdAt                         DateTime                         @default(now())
+  updatedAt                         DateTime
+  name                              String
+  rtspUrl                           String
+  serviceObjectDetection            Boolean                          @default(false)
+  serviceObjectCounts               Boolean                          @default(false)
+  serviceDwellTime                  Boolean                          @default(false)
+  serviceObjectIngressEgress        Boolean                          @default(false)
+  serviceObjectBehavior             Boolean                          @default(false)
+  serviceOccupancyTracking          Boolean                          @default(false)
+  serviceUtilizationRate            Boolean                          @default(false)
+  serviceThroughput                 Boolean                          @default(false)
+  serviceLiveWaitTime               Boolean                          @default(false)
+  serviceOther                      Boolean                          @default(false)
+  serviceObjectDetectionDescription String?
+  serviceObjectBehaviorDescription  String?
+  serviceOtherDescription           String?
+  serviceThroughputUnitOfTime       service_throughput_unit_of_time?
+  locationId                        String
+  viewingAngle                      camera_viewing_angle
+  location                          location                         @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+model event {
+  id             String                   @id
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime
+  name           String
+  start          DateTime
+  end            DateTime
+  organizationId String
+  locationId     String
+  fts            Unsupported("tsvector")? @default(dbgenerated("''::tsvector"))
+  event_guest    event_guest[]
+
+  @@index([fts], type: Gin)
+  @@index([locationId])
+  @@index([organizationId])
+}
+
+model event_guest {
+  id          String    @id
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  checkedInAt DateTime?
+  guestId     String?
+  eventId     String?
+  event       event?    @relation(fields: [eventId], references: [id])
+  guest       guest?    @relation(fields: [guestId], references: [id])
+
+  @@unique([eventId, guestId])
+}
+
+model guest {
+  id              String                   @id
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime
+  organizationId  String
+  firstName       String
+  lastName        String
+  email           String
+  phone           String
+  company         String?
+  companyPosition String?
+  fts             Unsupported("tsvector")? @default(dbgenerated("''::tsvector"))
+  event_guest     event_guest[]
+  vehicle         vehicle[]
+
+  @@unique([organizationId, email])
+  @@index([fts], type: Gin)
+  @@index([organizationId])
+}
+
+model location {
+  id             String                   @id
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime
+  name           String
+  address        String
+  latitude       Decimal
+  longitude      Decimal
+  number         Int                      @default(1)
+  serialNumber   String?
+  connectionType location_connection_type
+  organizationId String
+  organization   organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  camera         camera[]
+}
+
+model notification {
+  id        String    @id
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  readAt    DateTime?
+  data      Json
+  email     String?
+  phone     String?
+  sentAt    DateTime?
+}
+
+model organization {
+  id                      String                    @id
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime
+  name                    String
+  subdomain               String                    @unique
+  stripeCustomerId        String?
+  status                  organization_status       @default(ACTIVE)
+  statuses                organization_status[]
+  statuses2               String[]
+  api_key                 api_key[]
+  location                location[]
+  organization_invitation organization_invitation[]
+  organization_member     organization_member[]
+}
+
+model organization_invitation {
+  id             String                   @id
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime
+  email          String
+  role           organization_member_role
+  token          String
+  organizationId String
+  organization   organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model organization_member {
+  id             String                   @id
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime
+  role           organization_member_role
+  userId         String
+  organizationId String
+  organization   organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+}
+
+model parking_lot {
+  id            String          @id
+  label         String
+  createdAt     DateTime        @default(now())
+  notifyEmail   String?
+  notifyPhone   String?
+  updatedAt     DateTime
+  parking_space parking_space[]
+}
+
+model parking_space {
+  id                         String                       @id
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime
+  label                      String?
+  order                      Int?
+  type                       parking_space_type           @default(MONITORED)
+  status                     parking_space_status         @default(UNOCCUPIED)
+  parkedAt                   DateTime?
+  zoneId                     String?                      @unique
+  vehicleId                  String?
+  parkingLotId               String?
+  media                      Bytes?
+  cameraId                   String?
+  detectedPlate              String?
+  lastDetectionId            String?
+  parking_lot                parking_lot?                 @relation(fields: [parkingLotId], references: [id], onDelete: Cascade)
+  vehicle                    vehicle?                     @relation(fields: [vehicleId], references: [id], onUpdate: SetNull)
+  parking_space_activity_log parking_space_activity_log[]
+}
+
+model parking_space_activity_log {
+  id             String        @id
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime
+  text           String?
+  parkingSpaceId String
+  parking_space  parking_space @relation(fields: [parkingSpaceId], references: [id], onDelete: Cascade)
+}
+
+model vehicle {
+  id            String                   @id
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime
+  year          Int?
+  make          String?
+  model         String?
+  color         VehicleColor?
+  licensePlate  String
+  guestId       String?
+  fts           Unsupported("tsvector")? @default(dbgenerated("''::tsvector"))
+  guest         guest?                   @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  parking_space parking_space[]
+
+  @@index([fts], type: Gin)
+}
+
+enum VehicleColor {
+  BLUE
+  MAROON
+  YELLOW
+  SILVER
+  PURPLE
+  ORANGE
+  GREEN
+  GRAY
+  PINK
+  TAN
+  BROWN
+  BLACK
+  RED
+  GOLD
+  BEIGE
+  WHITE
+}
+
+enum camera_viewing_angle {
+  TOP_DOWN
+  RAISED_ANGLE
+  DIRECT_PARALLEL
+  OTHER
+  UNDECIDED
+}
+
+enum location_connection_type {
+  SERVER_ON_PREM
+  EDGE_DEVICE_ON_PREM
+  CURBCLOUD
+  NOT_SURE
+}
+
+enum organization_member_role {
+  OWNER
+  MEMBER
+  READ_ONLY
+}
+
+enum organization_status {
+  ACTIVE
+  INACTIVE
+}
+
+enum parking_space_status {
+  OCCUPIED
+  CHECKED_IN
+  REGISTERED
+  UNOCCUPIED
+  UNKNOWN
+}
+
+enum parking_space_type {
+  MANAGED
+  MONITORED
+}
+
+enum service_throughput_unit_of_time {
+  PerMinute
+  PerHour
+  PerDay
+}

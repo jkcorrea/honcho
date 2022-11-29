@@ -1,3 +1,6 @@
+.env*
+!.env.example
+
 node_modules/
 dist/
 
@@ -13,6 +16,7 @@ dist/
 # !.yarn/versions
 
 # Yarn w/o Zero-installs
+# Yarn 3 w/o Zero-installs
 .pnp.*
 .yarn/*
 !.yarn/patches

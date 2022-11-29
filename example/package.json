@@ -1,0 +1,28 @@
+{
+  "name": "honcho-example",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "honcho dev",
+    "build": "vite build",
+    "serve": "",
+    "lint": "eslint .",
+    "format": "run-s lint --fix",
+    "setup": "prisma db pull",
+    "generate": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.6.1",
+    "honchojs": "workspace:../honchojs",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "vite": "^3.2.4",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.3",
+    "npm-run-all": "^4.1.5",
+    "prisma": "^4.6.1"
+  }
+}

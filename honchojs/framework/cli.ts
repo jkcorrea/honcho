@@ -3,9 +3,9 @@ import chokidar from 'chokidar'
 import colors from 'picocolors'
 import { createLogger } from 'vite'
 
+import { startServer } from '../runtime/startServer'
 import { buildMergedResources } from './cli/buildMergedResources'
 import { GENERATED_RESOURCES_DIR, USER_RESOURCES_DIR } from './constants'
-import { startServer } from './startServer'
 
 const cli = cac('honcho')
 

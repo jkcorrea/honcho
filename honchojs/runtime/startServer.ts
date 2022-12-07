@@ -2,11 +2,11 @@ import path from 'path'
 
 import compress from '@fastify/compress'
 import middie from '@fastify/middie'
-import fastify from 'fastify'
-import { telefunc } from 'telefunc'
+import fastify, { FastifyPluginCallback } from 'fastify'
+import qs from 'fastify-qs'
 import { renderPage } from 'vite-plugin-ssr'
 
-import { serverEnv } from './env'
+import { serverEnv } from '../framework/env'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const root = process.cwd()
@@ -32,11 +32,7 @@ export async function startServer() {
     await app.use(viteServer.middlewares)
   }
 
-  app.all('/_telefunc', async (req, reply) => {
-    const httpResponse = await telefunc({ url: req.url, method: req.method, body: req.body as string })
-    const { body: resBody, statusCode, contentType } = httpResponse
-    reply.status(statusCode).type(contentType).send(resBody)
-  })
+  app.register(HonchoApi, { prefix: '/api/v0' })
 
   app.get('*', async (req, reply) => {
     const pageContextInit = {
@@ -56,4 +52,17 @@ export async function startServer() {
   const port = serverEnv.PORT
   app.listen({ port })
   console.log(`Server running at http://localhost:${port}`)
+}
+
+const HonchoApi: FastifyPluginCallback = (instance, _opts, done) => {
+  instance.register(qs, {})
+
+  instance.addContentTypeParser('application/json', { parseAs: 'string' }, function (_, body, _done) {
+    _done(null, body)
+  })
+
+  // instance.get('/resource', async (req, reply) => {
+  //   req.query.test
+  // })
+  done()
 }

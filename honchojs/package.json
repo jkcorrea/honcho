@@ -55,7 +55,6 @@
     "dotenv": "^16.0.3",
     "fast-glob": "^3.2.12",
     "fastify": "^4.9.2",
-    "fastify-qs": "^4.0.1",
     "fs-extra": "^10.1.0",
     "honcho": "^0.3.3",
     "picocolors": "^1.0.0",
@@ -77,8 +76,10 @@
     "@types/babel__core": "^7.1.20",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^17.0.31",
+    "@types/qs": "^6.9.7",
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
+    "fastify-qs": "^4.0.1",
     "vite-plugin-inspect": "^0.7.8"
   }
 }

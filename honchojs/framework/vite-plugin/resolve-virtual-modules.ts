@@ -1,18 +1,18 @@
 import fg from 'fast-glob'
 import type { Plugin } from 'vite'
 
-import { assert } from '../../utils/assert'
+import { assert } from '../../shared/utils/assert'
 import { GENERATED_RESOURCES_GLOB, RESOURCES_OUTPUT_FILE, USER_RESOURCES_GLOB } from '../constants'
 
 const VIRTUAL_MODULE_ID = 'virtual:honcho'
 const stripResourcesExport = 'stripResourcesExport'
 export const stripResourcesExportRE = new RegExp(`(\\?|&)${stripResourcesExport}(?:&|$)`)
 
-export function resolveVirtualResources(): Plugin {
+export function resolveVirtualModules(): Plugin {
   let allResourceFiles: string[] = []
 
   return {
-    name: 'honcho:resolveVirtualResources',
+    name: 'honcho:resolveVirtualModules',
     enforce: 'pre',
     configResolved(config) {
       assert(config.root)

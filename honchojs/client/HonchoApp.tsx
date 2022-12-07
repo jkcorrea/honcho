@@ -1,15 +1,10 @@
-import { useMemo } from 'react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { capitalCase } from 'change-case'
-// @ts-expect-error TS not resolving package.json exports field
-import { useData } from 'telefunc/react-streaming'
 import __honcho_resources from 'virtual:honcho'
 
-import type { AnyResourceColumns, ResourceColDef } from '../../../types'
-import ResourceTable from '../../components/ResourceTable'
-import { TableLayout } from '../../components/TableLayout'
-import { usePageContext } from '../../lib/usePageContext'
-import { onList } from './resource.page.telefunc'
+import type { AnyResourceColumns, ResourceColDef } from '../types'
+import ResourceTable from './components/ResourceTable'
+import { TableLayout } from './components/TableLayout'
 
 const colHelper = createColumnHelper<any>()
 const defaultCell: ColumnDef<any>['cell'] = ({ getValue }) => {
@@ -33,14 +28,15 @@ function transformColumns(cols: AnyResourceColumns): ColumnDef<any>[] {
     )
 }
 
-export const Page = () => {
-  const { routeParams = {} } = usePageContext()
-  const resourceId = routeParams.id
-  const data = useData(onList, resourceId)
-
-  const columns = useMemo(() => {
-    return transformColumns(__honcho_resources[resourceId].columns ?? {})
-  }, [resourceId])
+export const HonchoApp = () => {
+  // const { routeParams = {} } = usePageContext()
+  // const resourceId = routeParams.id
+  // const data = useData(onList, resourceId)
+  const data = [] as any
+  const columns = [] as any
+  // const columns = useMemo(() => {
+  //   return transformColumns(__honcho_resources[resourceId].columns ?? {})
+  // }, [resourceId])
 
   return (
     <TableLayout resources={Object.keys(__honcho_resources)}>

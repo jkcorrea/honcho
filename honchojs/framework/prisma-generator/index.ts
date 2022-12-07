@@ -6,7 +6,7 @@ import { Project } from 'ts-morph'
 import { generatorHandler } from '@prisma/generator-helper'
 
 import { GENERATED_CODE_DIR, GENERATED_RESOURCES_DIR } from '../constants'
-import { generateResourceFile } from './buildResources'
+import { generateResourceFile } from './generate-resources'
 
 generatorHandler({
   onManifest() {

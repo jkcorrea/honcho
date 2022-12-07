@@ -1,4 +1,4 @@
-import type { ResourceColumns } from 'honchojs/types'
+import type { ResourceColumns } from 'honchojs'
 
 import { columns as baseColumns, TEventGuest } from '~/generated/resources/event_guest'
 

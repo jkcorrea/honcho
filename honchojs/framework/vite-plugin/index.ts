@@ -1,9 +1,8 @@
 import react, { Options as ReactPluginOptions } from '@vitejs/plugin-react'
 import type { PluginOption } from 'vite'
-import ssr from 'vite-plugin-ssr/plugin'
 
-import { babelTransformClientSideResources } from './babelTransformClientSideResources'
-import { resolveVirtualResources, stripResourcesExportRE } from './resolveVirtualResources'
+import { babelTransformClientSideResources } from './babel-transform-client-side-resources'
+import { resolveVirtualModules, stripResourcesExportRE } from './resolve-virtual-modules'
 
 export interface HonchoOptions {
   /** Options passed to @vite/plugin-react */
@@ -27,11 +26,6 @@ export default function honcho(options: HonchoOptions = {}): PluginOption[] {
         }
       },
     }),
-    resolveVirtualResources(),
-    ssr({
-      pageFiles: {
-        include: ['honchojs'],
-      },
-    }),
+    resolveVirtualModules(),
   ]
 }

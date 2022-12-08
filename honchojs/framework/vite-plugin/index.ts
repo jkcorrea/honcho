@@ -1,5 +1,6 @@
 import react, { Options as ReactPluginOptions } from '@vitejs/plugin-react'
 import type { PluginOption } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 import { babelTransformClientSideResources } from './babel-transform-client-side-resources'
 import { resolveVirtualModules, stripResourcesExportRE } from './resolve-virtual-modules'
@@ -11,12 +12,14 @@ export interface HonchoOptions {
 
 export default function honcho(options: HonchoOptions = {}): PluginOption[] {
   return [
-    ...react({
+    // inspect(),
+    tsconfigPaths(),
+    react({
       babel(id, opts) {
         const inputOptions =
           typeof options.react?.babel === 'function' ? options.react.babel(id, opts) : options.react?.babel
 
-        if (!opts?.ssr && stripResourcesExportRE.test(id)) {
+        if (stripResourcesExportRE.test(id)) {
           return {
             ...inputOptions,
             plugins: [babelTransformClientSideResources(), ...(inputOptions?.plugins ?? [])],

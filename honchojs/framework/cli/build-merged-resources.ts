@@ -16,7 +16,10 @@ type AllResourceFileMap = Record<string, ResourceFileMap>
 
 export async function buildMergedResources() {
   console.log('building merged resources...')
-  const project = new Project()
+  const project = new Project({
+    tsConfigFilePath: `${process.cwd()}/tsconfig.json`,
+    compilerOptions: { noEmit: false },
+  })
 
   const generatedFiles = project.getSourceFiles(GENERATED_RESOURCES_GLOB)
   const overridesFiles = project.getSourceFiles(USER_RESOURCES_GLOB)
@@ -49,7 +52,7 @@ export async function buildMergedResources() {
   const file = project.createSourceFile(RESOURCES_OUTPUT_FILE, undefined, { overwrite: true })
   generateMergedFile(file, resourceFileMap)
 
-  await file.save()
+  await file.emit()
 }
 
 const resourcePrefix = (id: string) => `${id}__`
@@ -60,7 +63,7 @@ const resolversIdentifier = (id: string) => resourcePrefix(id) + 'resolvers'
 function generateMergedFile(file: SourceFile, resourceFileMap: AllResourceFileMap) {
   file.addImportDeclarations([
     { namedImports: ['z'], moduleSpecifier: 'zod' },
-    { namedImports: ['HonchoResource'], moduleSpecifier: '@honcho/types' },
+    { namedImports: ['HonchoResource'], moduleSpecifier: 'honchojs' },
   ])
 
   const resourceImports = Object.entries(resourceFileMap).map<OptionalKind<ImportDeclarationStructure>[]>(

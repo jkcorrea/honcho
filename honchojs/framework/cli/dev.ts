@@ -11,16 +11,12 @@ export interface DevServerOptions {}
 
 export default async function dev(_args: string, _options: DevServerOptions) {
   try {
-    let apiPort: number
-    try {
-      apiPort = parseInt(process.env.API_PORT ?? '3000')
-    } catch (e) {
-      apiPort = 3000
-    }
+    const clientPort: number = parseInt(process.env.PORT ?? '3000')
+    const apiPort: number = parseInt(process.env.API_PORT ?? '3001')
 
+    await buildMergedResources()
     startApiServer(apiPort)
-    startClientServer()
-    buildMergedResources()
+    startClientServer(clientPort)
   } catch (e) {
     let errMsg = 'error when starting dev server:\n'
     if (e instanceof Error) errMsg += e.stack
@@ -41,10 +37,11 @@ export default async function dev(_args: string, _options: DevServerOptions) {
   })
 }
 
-async function startClientServer() {
+async function startClientServer(port: number) {
   const server = await createServer({
     plugins: [honcho()],
     root: process.cwd(),
+    server: { port },
   })
   await server.listen()
   server.printUrls()

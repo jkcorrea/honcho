@@ -10,6 +10,7 @@ export function babelTransformClientSideResources(): PluginItem {
         exit(program) {
           const alreadyUnreferenced = getAlreadyUnreferenced(program)
           let modified = false
+
           program.traverse({
             ExportNamedDeclaration: {
               enter(path) {
@@ -69,7 +70,12 @@ function getAlreadyUnreferenced(program: NodePath<t.Program>) {
 
 function removeUnreferenced(program: NodePath<t.Program>, alreadyUnreferenced: Set<string>) {
   for (;;) {
+    // This for-ever loop + crawl call seems odd
+    // Basically, .crawl() refreshes the list of bindings in scope
+    // So we continually refresh and re-run the inner for loop
+    // whenever we remove unreferenced code, until we stop removing code
     program.scope.crawl()
+
     let removed = false
     for (const [name, binding] of Object.entries(program.scope.bindings)) {
       if (binding.referenced || alreadyUnreferenced.has(name)) {

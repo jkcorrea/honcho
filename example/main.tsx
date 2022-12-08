@@ -1,4 +1,5 @@
 import React from 'react'
+import { HonchoApp } from 'honchojs'
 import ReactDOM from 'react-dom/client'
 
 import './main.css'

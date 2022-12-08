@@ -14,11 +14,10 @@ export function resolveVirtualModules(): Plugin {
   return {
     name: 'honcho:resolveVirtualModules',
     enforce: 'pre',
-    configResolved(config) {
-      assert(config.root)
-      const generatedFiles = fg.sync(GENERATED_RESOURCES_GLOB).map((f) => f.replace(config.root, ''))
-      const overridesFiles = fg.sync(USER_RESOURCES_GLOB).map((f) => f.replace(config.root, ''))
-      allResourceFiles = generatedFiles.concat(overridesFiles)
+    configResolved(_config) {
+      const generatedFiles = fg.sync(GENERATED_RESOURCES_GLOB)
+      const overridesFiles = fg.sync(USER_RESOURCES_GLOB)
+      allResourceFiles = generatedFiles.concat(overridesFiles).map((f) => f.replace('.tsx', ''))
     },
     async resolveId(id, importer, options) {
       if (id === VIRTUAL_MODULE_ID) {

@@ -17,12 +17,13 @@ export function generateResourceFile(model: DMMF.Model, file: SourceFile) {
     {
       kind: StructureKind.ImportDeclaration,
       namedImports: ['prisma'],
-      moduleSpecifier: 'honchojs/db',
+      moduleSpecifier: '~/prisma',
     },
     {
       kind: StructureKind.ImportDeclaration,
+      isTypeOnly: true,
       namedImports: ['ResourceResolvers', 'ResourceColumns'],
-      moduleSpecifier: 'honchojs/types',
+      moduleSpecifier: 'honchojs',
     },
   ]
 
@@ -40,7 +41,7 @@ export function generateResourceFile(model: DMMF.Model, file: SourceFile) {
     importList.push({
       kind: StructureKind.ImportDeclaration,
       namedImports: ['JsonSchema'],
-      moduleSpecifier: 'honchojs/helpers',
+      moduleSpecifier: 'honchojs',
     })
   }
 

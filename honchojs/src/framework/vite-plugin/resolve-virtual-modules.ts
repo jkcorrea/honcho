@@ -12,7 +12,7 @@ export function resolveVirtualModules(): Plugin {
   let allResourceFiles: string[] = []
 
   return {
-    name: 'honcho:resolveVirtualModules',
+    name: 'honcho:resolve-virtual-modules',
     enforce: 'pre',
     configResolved(_config) {
       const generatedFiles = fg.sync(GENERATED_RESOURCES_GLOB)

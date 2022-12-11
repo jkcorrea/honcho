@@ -1,7 +1,6 @@
 import path from 'path'
 
 import { ImportDeclarationStructure, OptionalKind, Project, SourceFile, VariableDeclarationKind } from 'ts-morph'
-import { SemicolonPreference } from 'typescript'
 
 import { assertUsage } from '../../shared/utils/assert'
 import { GENERATED_RESOURCES_GLOB, RESOURCES_OUTPUT_FILE, USER_RESOURCES_GLOB } from '../constants'
@@ -111,6 +110,5 @@ function generateMergedFile(file: SourceFile, resourceFileMap: AllResourceFileMa
     indentSize: 2,
     convertTabsToSpaces: true,
     ensureNewLineAtEndOfFile: true,
-    semicolons: SemicolonPreference.Remove,
   })
 }

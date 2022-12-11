@@ -3,11 +3,15 @@ import { createReactRouter } from '@tanstack/react-router'
 
 import { Spinner } from './components/Spinner'
 import { rootRoute } from './routes/__root'
-import { tableRoute } from './routes/table'
+import { resourceTableIndexRoute } from './routes/table'
+import { tableLayoutRoute } from './routes/table/__layout'
 import { resourceTableRoute } from './routes/table/resource'
-import { indexRoute } from './routes'
 
-const routeConfig = rootRoute.addChildren([indexRoute, tableRoute.addChildren([resourceTableRoute])])
+const routeConfig = rootRoute.addChildren([
+  //
+  // indexRoute,
+  tableLayoutRoute.addChildren([resourceTableIndexRoute, resourceTableRoute]),
+])
 
 export const router = createReactRouter({
   routeConfig,

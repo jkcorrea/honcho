@@ -1,0 +1,70 @@
+diff --git a/build/cjs/index.js b/build/cjs/index.js
+index 2ac7d84c3837f68d794d04795e11a68c7fce9bec..3a93089a24a17612bbfd0c693851ad0b7f808cb9 100644
+--- a/build/cjs/index.js
++++ b/build/cjs/index.js
+@@ -14,7 +14,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+ var _rollupPluginBabelHelpers = require('./_virtual/_rollupPluginBabelHelpers.js');
+ var React = require('react');
+-var shim = require('use-sync-external-store/shim');
+ var routerCore = require('@tanstack/router-core');
+ 
+ function _interopNamespace(e) {
+@@ -74,7 +73,7 @@ function MatchesProvider(props) {
+   return /*#__PURE__*/React__namespace.createElement(matchesContext.Provider, props);
+ }
+ const useRouterSubscription = router => {
+-  shim.useSyncExternalStore(cb => router.subscribe(() => cb()), () => router.state, () => router.state);
++  React.useSyncExternalStore(cb => router.subscribe(() => cb()), () => router.state, () => router.state);
+ };
+ function createReactRouter(opts) {
+   const makeRouteExt = (route, router) => {
+diff --git a/build/esm/index.js b/build/esm/index.js
+index fcc918e49aa365b37bcef0b0d9a25d34b8954c90..bf358ea5678113490db768dea616458470430a0a 100644
+--- a/build/esm/index.js
++++ b/build/esm/index.js
+@@ -9,7 +9,6 @@
+  * @license MIT
+  */
+ import * as React from 'react';
+-import { useSyncExternalStore } from 'use-sync-external-store/shim';
+ import { createRouter, rootRouteId, warning, invariant, last, functionalUpdate } from '@tanstack/router-core';
+ export * from '@tanstack/router-core';
+ 
+@@ -77,7 +76,7 @@ function MatchesProvider(props) {
+   return /*#__PURE__*/React.createElement(matchesContext.Provider, props);
+ }
+ const useRouterSubscription = router => {
+-  useSyncExternalStore(cb => router.subscribe(() => cb()), () => router.state, () => router.state);
++  React.useSyncExternalStore(cb => router.subscribe(() => cb()), () => router.state, () => router.state);
+ };
+ function createReactRouter(opts) {
+   const makeRouteExt = (route, router) => {
+diff --git a/build/umd/index.development.js b/build/umd/index.development.js
+index ad7bc0380cb6576529423421cdd1f928463deab6..2024bd438913b7add19d65d3bde68f94e5531e0f 100644
+--- a/build/umd/index.development.js
++++ b/build/umd/index.development.js
+@@ -9,10 +9,10 @@
+  * @license MIT
+  */
+ (function (global, factory) {
+-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('use-sync-external-store/shim')) :
+-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'use-sync-external-store/shim'], factory) :
+-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.ReactRouter = {}, global.React, global.shim));
+-})(this, (function (exports, React, shim) { 'use strict';
++  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react')) :
++  typeof define === 'function' && define.amd ? define(['exports', 'react'], factory) :
++  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.ReactRouter = {}, global.React));
++})(this, (function (exports, React) { 'use strict';
+ 
+   function _interopNamespace(e) {
+     if (e && e.__esModule) return e;
+@@ -2448,7 +2448,7 @@
+     return /*#__PURE__*/React__namespace.createElement(matchesContext.Provider, props);
+   }
+   const useRouterSubscription = router => {
+-    shim.useSyncExternalStore(cb => router.subscribe(() => cb()), () => router.state, () => router.state);
++    React.useSyncExternalStore(cb => router.subscribe(() => cb()), () => router.state, () => router.state);
+   };
+   function createReactRouter(opts) {
+     const makeRouteExt = (route, router) => {

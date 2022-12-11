@@ -12,7 +12,7 @@ export const rootRoute = createRouteConfig({
       <>
         <div className={`flex min-h-screen flex-col`}>
           <div className={`flex items-center gap-2 border-b`}>
-            <h1 className={`p-2 text-3xl`}>Kitchen Sink</h1>
+            <h1 className={`p-2 text-3xl`}>Honcho.js</h1>
             {/* Show a global spinner when the router is transitioning */}
             <div
               className={`delay-0 text-3xl opacity-0 duration-300 ${

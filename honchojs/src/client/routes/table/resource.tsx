@@ -6,11 +6,10 @@ import __honcho_resources from 'virtual:honcho'
 
 import type { AnyResourceColumns, ResourceColDef } from '../../../types'
 import ResourceTable from '../../components/ResourceTable'
-import { TableLayout } from '../../components/TableLayout'
-import { tableRoute } from '.'
+import { tableLayoutRoute } from './__layout'
 
-export const resourceTableRoute = tableRoute.createRoute({
-  path: `$resourceId`,
+export const resourceTableRoute = tableLayoutRoute.createRoute({
+  path: `/t/$resourceId`,
   component: Table,
 })
 
@@ -45,9 +44,5 @@ function Table() {
   const columns = useMemo(() => {
     return transformColumns(__honcho_resources[resourceId].columns ?? {})
   }, [resourceId])
-  return (
-    <TableLayout resources={Object.keys(__honcho_resources)}>
-      <ResourceTable data={data} columns={columns} />
-    </TableLayout>
-  )
+  return <ResourceTable data={data} columns={columns} />
 }

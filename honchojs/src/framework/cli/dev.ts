@@ -4,7 +4,6 @@ import { createLogger, createServer } from 'vite'
 
 import { startApiServer } from '../../server'
 import { GENERATED_RESOURCES_DIR, USER_RESOURCES_DIR } from '../constants'
-import honcho from '../vite-plugin'
 import { buildMergedResources } from './build-merged-resources'
 
 export interface DevServerOptions {}
@@ -39,7 +38,6 @@ export default async function dev(_args: string, _options: DevServerOptions) {
 
 async function startClientServer(port: number) {
   const server = await createServer({
-    plugins: [honcho()],
     root: process.cwd(),
     server: { port },
   })

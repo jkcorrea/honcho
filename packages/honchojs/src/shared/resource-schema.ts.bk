@@ -1,0 +1,99 @@
+import { AnyResourceSchema } from "../../types"
+
+type ResourceSort<TSchema extends AnyResourceSchema = AnyResourceSchema> = {
+  field: keyof TSchema
+  order: 'asc' | 'desc'
+  nulls?: 'first' | 'last'
+}
+
+type ScalarOp<TSchema extends AnyResourceSchema = AnyResourceSchema> = {
+  field: keyof TSchema
+  op: 'eq' | 'gt' | 'gte' | 'lt' | 'lte' | 'neq' | 'is'
+  value: string | number | boolean | undefined | null
+}
+
+type CustomOp = {
+  op: 'custom'
+  key: string
+  value: string
+}
+
+type AndOrOp<TSchema extends AnyResourceSchema = AnyResourceSchema> = {
+  op: 'and' | 'or'
+  left: ResourceFilter<TSchema>
+  right: ResourceFilter<TSchema>
+}
+
+type NotOp<TSchema extends AnyResourceSchema = AnyResourceSchema> = {
+  condition: ResourceFilter<TSchema>
+  op: 'not'
+}
+
+type ResourceFilter<TSchema extends AnyResourceSchema = AnyResourceSchema> =
+  | ScalarOp<TSchema>
+  | CustomOp
+  | AndOrOp<TSchema>
+  | NotOp<TSchema>
+
+class ResourceListQueryBuilder<TSchema extends AnyResourceSchema = AnyResourceSchema> {
+  readonly schema?: TSchema
+
+  sort: ResourceSort<TSchema>[] = []
+  filters: ResourceFilter<TSchema>[] = []
+
+  constructor(schema?: TSchema) {
+    this.schema = schema
+  }
+
+  toQueryString() {
+    const sortVal = this.sort.map((s) =>
+      ([...[s.field, s.order, s.nulls ? `nulls${s.nulls}` : undefined]] as string[])
+        .map((part) => encodeURIComponent(part))
+        .join('.'),
+    )
+    const filterVal = this.filters.map((f) => filterToString(f, true)).join('&')
+    return [sortVal, filterVal].join('&')
+  }
+}
+
+const filterToString = (node: ResourceFilter<any>, isRoot = false, isNegated = false): string => {
+  const prefix = isNegated ? 'not.' : ''
+  if (node.op === 'and' || node.op === 'or') {
+    const left = filterToString(node.left),
+      right = filterToString(node.right)
+    return isRoot ? `${prefix}${node.op}=(${left},${right})` : `${prefix}${node.op}(${left},${right})`
+  } else if (node.op === 'not') {
+    // Just pass the negation down to the underlying node
+    return `${prefix}${filterToString(node.condition, isRoot, true)}`
+  } else if (node.op === 'custom') {
+    const val = encodeURIComponent(node.value)
+    return isRoot ? `custom.${node.key}=${val}` : `custom(${node.key}).${val}`
+  }
+
+  // Regular leaf op
+  const { op, field, value } = node as ScalarOp
+  const val = encodeURIComponent(value as string)
+  return isRoot ? `${field}=${op}.${val}` : `${field}.${op}.${val}`
+}
+
+const stringToFilter = (str: string, isRoot = false): ResourceFilter => {
+  if (str.startsWith('not.')) {
+    return {
+      op: 'not',
+      // recurse & preserve isRoot status since NOT should't affect it
+      condition: stringToFilter(str.slice('not.'.length), isRoot)
+    }
+  }
+
+  if (isRoot) {
+    // Now we can be sure `key` is not negated
+    const [key, val] = str.split('=')
+    if (key === 'and' || key === 'or') {
+      const [_, left, right] = val.match()
+      return {
+        op: key,
+        left:
+      }
+    }
+  }
+}

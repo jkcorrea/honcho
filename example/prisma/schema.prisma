@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  output   = "../prisma/client"
 }
 
 generator honcho {
@@ -109,8 +109,8 @@ model location {
   serialNumber   String?
   connectionType location_connection_type
   organizationId String
-  organization   organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   camera         camera[]
+  organization   organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 }
 
 model notification {
@@ -214,8 +214,8 @@ model vehicle {
   licensePlate  String
   guestId       String?
   fts           Unsupported("tsvector")? @default(dbgenerated("''::tsvector"))
-  guest         guest?                   @relation(fields: [guestId], references: [id], onDelete: Cascade)
   parking_space parking_space[]
+  guest         guest?                   @relation(fields: [guestId], references: [id], onDelete: Cascade)
 
   @@index([fts], type: Gin)
 }
